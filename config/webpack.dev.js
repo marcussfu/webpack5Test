@@ -5,11 +5,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
     entry: "./src/main.js",
     output: {
-        path: path.resolve(__dirname, "dist"),
+        // 開發模式沒有輸出
+        path: undefined,
         // entry js
         filename: "static/js/main.js",
-        // auto clean last dist
-        clean: true,
     },
     module: {
         rules: [
@@ -81,12 +80,12 @@ module.exports = {
     },
     plugins: [
         new ESLintPlugin({
-            context: path.resolve(__dirname, "src"),
+            context: path.resolve(__dirname, "../src"),
         }),
         new HtmlWebpackPlugin({
             // template, 以public/index.html文件創建新的html文件
             // 新的html文件重點: 1. 結構和原來一致，2. 自動引入打包輸出的資源
-            template: path.resolve(__dirname, "public/index.html"),
+            template: path.resolve(__dirname, "../public/index.html"),
         }),
     ],
     devServer: {//npx webpack serve，不會輸出dist
