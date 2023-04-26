@@ -10,6 +10,26 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/js/add.js":
+/*!***********************!*\
+  !*** ./src/js/add.js ***!
+  \***********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nvar add = function add(x, y) {\n  var total = x + y;\n  return total;\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (add);\n\n//# sourceURL=webpack://webpack5test/./src/js/add.js?");
+
+/***/ }),
+
+/***/ "./src/main.js":
+/*!*********************!*\
+  !*** ./src/main.js ***!
+  \*********************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_add__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/add */ \"./src/js/add.js\");\n/* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./css/index.css */ \"./src/css/index.css\");\n/* harmony import */ var _css_all_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/all.css */ \"./src/css/all.css\");\n/* harmony import */ var _css_icofont_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/icofont.css */ \"./src/css/icofont.css\");\n/* harmony import */ var _less_box2_less__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./less/box2.less */ \"./src/less/box2.less\");\n/* harmony import */ var _sass_box3_sass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sass/box3.sass */ \"./src/sass/box3.sass\");\n/* harmony import */ var _sass_box4_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./sass/box4.scss */ \"./src/sass/box4.scss\");\n/* harmony import */ var _stylus_box5_styl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stylus/box5.styl */ \"./src/stylus/box5.styl\");\n\n\n\n\n\n\n\n\nconsole.log((0,_js_add__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(1, 2));\n\n//# sourceURL=webpack://webpack5test/./src/main.js?");
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./node_modules/less-loader/dist/cjs.js!./src/less/box2.less":
 /*!*********************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/less-loader/dist/cjs.js!./src/less/box2.less ***!
@@ -237,26 +257,6 @@ eval("\n\n/* istanbul ignore next  */\nfunction apply(styleElement, options, obj
 /***/ ((module) => {
 
 eval("\n\n/* istanbul ignore next  */\nfunction styleTagTransform(css, styleElement) {\n  if (styleElement.styleSheet) {\n    styleElement.styleSheet.cssText = css;\n  } else {\n    while (styleElement.firstChild) {\n      styleElement.removeChild(styleElement.firstChild);\n    }\n    styleElement.appendChild(document.createTextNode(css));\n  }\n}\nmodule.exports = styleTagTransform;\n\n//# sourceURL=webpack://webpack5test/./node_modules/style-loader/dist/runtime/styleTagTransform.js?");
-
-/***/ }),
-
-/***/ "./src/js/add.js":
-/*!***********************!*\
-  !*** ./src/js/add.js ***!
-  \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nconst add = (x,y) => {\n    const total = x+y;\n    return total;\n};\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (add);\n\n//# sourceURL=webpack://webpack5test/./src/js/add.js?");
-
-/***/ }),
-
-/***/ "./src/main.js":
-/*!*********************!*\
-  !*** ./src/main.js ***!
-  \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _js_add__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/add */ \"./src/js/add.js\");\n/* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./css/index.css */ \"./src/css/index.css\");\n/* harmony import */ var _css_all_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./css/all.css */ \"./src/css/all.css\");\n/* harmony import */ var _css_icofont_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./css/icofont.css */ \"./src/css/icofont.css\");\n/* harmony import */ var _less_box2_less__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./less/box2.less */ \"./src/less/box2.less\");\n/* harmony import */ var _sass_box3_sass__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./sass/box3.sass */ \"./src/sass/box3.sass\");\n/* harmony import */ var _sass_box4_scss__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./sass/box4.scss */ \"./src/sass/box4.scss\");\n/* harmony import */ var _stylus_box5_styl__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./stylus/box5.styl */ \"./src/stylus/box5.styl\");\n\n\n\n\n\n\n\n\n\nconsole.log((0,_js_add__WEBPACK_IMPORTED_MODULE_0__[\"default\"])(1,2));\n\n//# sourceURL=webpack://webpack5test/./src/main.js?");
 
 /***/ }),
 
