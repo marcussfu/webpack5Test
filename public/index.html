@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link href="../src/style/all.css" rel="stylesheet"> -->
+</head>
+<body>
+    <h1>hello world</h1>
+    <script type="module">
+        import RAPIER from "https://cdn.skypack.dev/@dimforge/rapier2d-compat";
+
+        await RAPIER.init();
+
+        const gravity = { x: 0, y: 9.81 };
+        const world = new RAPIER.World(gravity);
+
+        // Create the ground
+
+        const groundRect = document.getElementById(`ground`).getBoundingClientRect();
+
+        const groundColliderDesc = RAPIER.ColliderDesc.cuboid(
+        groundRect.width / 2,
+        groundRect.height / 2
+        ).setTranslation(
+        groundRect.x + groundRect.width / 2,
+        groundRect.y + groundRect.height / 2
+        );
+
+        world.createCollider(groundColliderDesc);
+
+        // Create a dynamic rigid-body.
+
+        const boxElement = document.getElementById(`box`);
+        const boxRect = boxElement.getBoundingClientRect();
+
+        // Use "static" for a static rigid-body instead.
+        const rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic()
+        .setRotation(Math.PI / 4)
+        .setTranslation(
+            boxRect.x + boxRect.width / 2,
+            boxRect.y + boxRect.height / 2
+        );
+
+        const rigidBody = world.createRigidBody(rigidBodyDesc);
+
+        // Create a cuboid collider attached to rigidBody.
+
+        const colliderDesc = RAPIER.ColliderDesc.cuboid(
+        boxRect.width / 2,
+        boxRect.height / 2
+        );
+
+        world.createCollider(colliderDesc, rigidBody);
+
+        // Reset boxElement's position so that it's compatible with future transforms.
+        boxElement.style.left = `${-boxRect.width / 2}px`;
+        boxElement.style.top = `${-boxRect.height / 2}px`;
+
+        // Get and update the rigid-body's position.
+        const animate = () => {
+        const { x, y } = rigidBody.translation();
+        const rotation = rigidBody.rotation();
+        boxElement.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}rad)`;
+        };
+
+        // Game loop. Replace by your own game loop system.
+        const step = () => {
+        world.step();
+        requestAnimationFrame(animate);
+        };
+
+        setInterval(step, world.timestep * 1000);
+
+        
+    </script>
+    
+    <span class='icofont-bomb'></span>
+    <span class='icofont-dice'></span>
+    <span class='icofont-beard'></span>
+    <div class="test"></div>
+    <div class="box2"></div>
+    <div class="box3"></div>
+    <div class="box4"></div>
+    <div class="box5"></div>
+    <div id="box"></div>
+    <div id="ground"></div>
+    <script src="../dist/static/js/main.js"></script>
+    
+</body>
+</html>

@@ -1,0 +1,22 @@
+body {
+    background-color: #ffffff;
+  }
+  
+  #box {
+    background-color: #1d7a8c;
+    height: 20%;
+    left: 48%;
+    position: absolute;
+    width: 4%;
+  }
+  
+  #ground {
+    background-color: #f3d9b1;
+    bottom: 0%;
+    height: 10%;
+    left: 50%;
+    position: absolute;
+    translate: -50%;
+    width: 80%;
+  }
+  
