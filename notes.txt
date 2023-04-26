@@ -1,0 +1,75 @@
+npm init -y
+
+npm i webpack webpack-cli -D
+
+npx webpack ./src/main.js --mode=development  //還沒加上webpack.config.js前
+                                 production
+
+npx webpack
+
+
+原生只能編譯js，要編譯其他需要套件
+
+
+visual code remove comments shortcut command
+透過正規進行搜尋，並使用快捷鍵 command + enter 替換全部。
+
+//.*\n
+// 開頭
+. 所有字元
+* 不限數量
+\n 尾巴為換行
+
+
+
+.eslintrc
+.eslintrc.js
+.eslintrc.json
+
+package.json's eslintConfig
+
+eslint會自動查找相關文件，所以只要存在一個就行
+
+parserOptions // 解析選項
+rules // 具體規則
+  off: 0
+  warn: 1
+  error: 2 
+extends // 繼承
+  直接繼承已經寫好的規則, 而在rules的規則會覆蓋或新增在原有的規則上
+  extends: ['react-app']
+
+
+npm i eslint eslint-webpack-plugin --save-dev
+
+===============================================================
+
+babel
+
+npm install -D babel-loader @babel/core @babel/preset-env
+
+===============================================================
+
+處理html資源
+npm install --save-dev html-webpack-plugin
+
+===============================================================
+
+開發環境自動打包，只要Code修改儲存，就會自動npx webpack(實時重新加載
+
+npm i webpack-dev-server -D
+
+
+npx webpack serve
+
+
+===============================================================
+
+dev 模式
+npx webpack serve --config ./config/webpack.dev.js
+
+production 模式
+npx webpack --config ./config/webpack.prod.js
+
+在package.json的scripts設定好shortcut
+就能直接npm start(npm run dev) 開發模式 、npm run build 生產模式了
