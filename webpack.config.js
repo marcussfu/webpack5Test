@@ -89,5 +89,10 @@ module.exports = {
             template: path.resolve(__dirname, "public/index.html"),
         }),
     ],
+    devServer: {//npx webpack serve，不會輸出dist
+        host: 'localhost',
+        port: '3100',
+        open: true, // open broswer auto
+    },
     mode: "development",
 };
