@@ -73,3 +73,20 @@ npx webpack --config ./config/webpack.prod.js
 
 在package.json的scripts設定好shortcut
 就能直接npm start(npm run dev) 開發模式 、npm run build 生產模式了
+
+
+============================================
+
+提取CSS成單獨文件
+
+css打包在js中，當js load進來後，再創建style來生成樣式
+但網站這樣會出現閃屏
+
+於是透過單獨的css, 再通過link標簽加載
+
+npm i --save-dev mini-css-extract-plugin
+
+在webpack.prod.js加入
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+要把style.loader改成MiniCssExtractPlugin.loader //提取css成單獨文件

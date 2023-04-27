@@ -1,6 +1,7 @@
 const path = require("path");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
     entry: "./src/main.js",
@@ -17,14 +18,14 @@ module.exports = {
             {
                 test: /\.css$/,//only detect .css
                 use: [ //execute order from right to left, down to up
-                    "style-loader", // css from js to create style tag in html to active
+                    MiniCssExtractPlugin.loader, // css from js to create style tag in html to active
                     "css-loader" //css to commonjs to js
                 ],
             },
             {
                 test: /\.less$/,
                 use: [
-                    "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     'less-loader'
                 ],
@@ -32,7 +33,7 @@ module.exports = {
             {
                 test: /\.s[ac]ss$/,
                 use: [
-                    "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     'sass-loader'
                 ],
@@ -40,7 +41,7 @@ module.exports = {
             {
                 test: /\.styl$/,
                 use: [
-                    "style-loader",
+                    MiniCssExtractPlugin.loader,
                     "css-loader",
                     'stylus-loader'
                 ],
@@ -87,6 +88,9 @@ module.exports = {
             // template, 以public/index.html文件創建新的html文件
             // 新的html文件重點: 1. 結構和原來一致，2. 自動引入打包輸出的資源
             template: path.resolve(__dirname, "../public/index.html"),
+        }),
+        new MiniCssExtractPlugin({
+            filename: "static/css/main.css",
         }),
     ],
     // WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB)
