@@ -226,3 +226,36 @@ if (module.hot) {
 開發環境: 一樣需要重新 npm start，編譯速度會快一點點
 生產環境: npm run build，打包速度會快一點點
 
+## include/Exclude
+* Why
+第三方函式庫或plugin已經下載到node_modules，這些文件不需要再編譯就可以直接使用的，所以在對js處理時，要排除掉node_modules下的文件
+* What
+include: 包含，只處理xxx文件
+exclude: 排除，除了xxx文件以外的其他文件都處理
+只針對js文件
+* How
+開發環境和生產環境都可以用
+include和exclude只能存其一，不能都加上去
+
+ex:
+```
+{
+    test: /\.m?js$/,
+    // exclude: /node_modules/, // 排除node_modules下的js，其他文件都處理
+    include: path.resolve(__dirname, '../src'), // 只處理src下的文件，其他文件不處理
+    loader: 'babel-loader',
+    // options: {
+    //     presets: ['@babel/preset-env'],
+    // },
+},
+
+
+new ESLintPlugin({
+    context: path.resolve(__dirname, "../src"),
+    exclude: 'node_modules', // 默認值，不寫也會排除掉node_modules
+}),
+```
+
+開發環境: 一樣需要重新 npm start
+生產環境: npm run build
+看有沒有正常編譯
