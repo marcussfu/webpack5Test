@@ -17,7 +17,7 @@ const add = (x, y) => {
 
 
 
-console.log(js_add(1, 6));
+console.log(js_add(4, 6));
 /******/ })()
 ;
 //# sourceMappingURL=main.js.map

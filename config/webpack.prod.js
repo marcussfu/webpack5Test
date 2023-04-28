@@ -33,55 +33,60 @@ module.exports = {
     },
     module: {
         rules: [
-            // loader
             {
-                test: /\.css$/,//only detect .css
-                use: getStyleLoader(), //execute order from right to left, down to up
-            },
-            {
-                test: /\.less$/,
-                use: getStyleLoader('less-loader'),
-            },
-            {
-                test: /\.s[ac]ss$/,
-                use: getStyleLoader('sass-loader'),
-            },
-            {
-                test: /\.styl$/,
-                use: getStyleLoader('stylus-loader'),
-            },
-            {
-                test: /\.(png|jpe?g|gif|webp|svg)$/,
-                type: "asset",
-                parser: {
-                    dataUrlCondition: {
-                        // small than 10kb's pic turn to base64
-                        // good: reduce request count   bad: size bigger
-                        maxSize: 10 * 1024, // 10kb
-                    }
-                },
-                generator: {
-                    // export pic url and name
-                    // [hash:10] hash filename only take 10 digit
-                    filename: 'static/images/[hash:10][ext][query]',
-                }
-            },
-            {
-                test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
-                type: "asset/resource",
-                generator: {
-                    // export pic url and name
-                    filename: 'static/media/[hash:10][ext][query]',
-                }
-            },
-            {
-                test: /\.m?js$/,
-                exclude: /node_modules/, // 排除node_modules's js
-                loader: 'babel-loader',
-                // options: {
-                //     presets: ['@babel/preset-env'],
-                // },
-            },
+                // each document only use one loader of these loader, reduce package time
+                oneOf: [
+                    // loader
+                    {
+                        test: /\.css$/,//only detect .css
+                        use: getStyleLoader(), //execute order from right to left, down to up
+                    },
+                    {
+                        test: /\.less$/,
+                        use: getStyleLoader('less-loader'),
+                    },
+                    {
+                        test: /\.s[ac]ss$/,
+                        use: getStyleLoader('sass-loader'),
+                    },
+                    {
+                        test: /\.styl$/,
+                        use: getStyleLoader('stylus-loader'),
+                    },
+                    {
+                        test: /\.(png|jpe?g|gif|webp|svg)$/,
+                        type: "asset",
+                        parser: {
+                            dataUrlCondition: {
+                                // small than 10kb's pic turn to base64
+                                // good: reduce request count   bad: size bigger
+                                maxSize: 10 * 1024, // 10kb
+                            }
+                        },
+                        generator: {
+                            // export pic url and name
+                            // [hash:10] hash filename only take 10 digit
+                            filename: 'static/images/[hash:10][ext][query]',
+                        }
+                    },
+                    {
+                        test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
+                        type: "asset/resource",
+                        generator: {
+                            // export pic url and name
+                            filename: 'static/media/[hash:10][ext][query]',
+                        }
+                    },
+                    {
+                        test: /\.m?js$/,
+                        exclude: /node_modules/, // 排除node_modules's js
+                        loader: 'babel-loader',
+                        // options: {
+                        //     presets: ['@babel/preset-env'],
+                        // },
+                    },
+                ]
+            }
         ],
     },
     plugins: [

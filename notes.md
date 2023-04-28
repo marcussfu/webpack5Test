@@ -204,3 +204,25 @@ if (module.hot) {
 }
 ```
 但這樣很麻煩，要一直加，如果是vue或react, 就可以各別用 vue-loader和react-hot-loader來處理
+
+## oneOf
+* Why
+打包時每個文件都會經過所有loader處理，雖然實際上沒有處理到，但都要經過一遍，比較慢
+* What
+顧名思義就是只能匹配上一個loader，其他就不匹配了
+* How
+在rules裡再包一層oneOf
+```
+  rules: [
+    {
+      oneOf: [
+        //各種loader
+      ]
+    }
+  ]
+```
+開發環境和生產環境都可以用
+
+開發環境: 一樣需要重新 npm start，編譯速度會快一點點
+生產環境: npm run build，打包速度會快一點點
+
