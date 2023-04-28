@@ -170,4 +170,37 @@ source-map
 
 要重新用 npm start才能
 
+## HotModuleReplacement
+* Why
+在開發模式時修改了其中一個module code，webpack畎認會將所有module全部重新打包，速度很慢
 
+所以需要做到改了什麼module code，就只有這個module需要重新打包，這樣速度就會比較快
+
+生產模式就是全部重新打包，所以不能用這個
+
+* What
+HotModuleReplacement(HMR)，在運行中替換、增加或刪除module，無需重新加載整個頁面
+
+* How
+
+在devServer裡加hot: true，一樣要重新npm start
+
+ex: 更新index.css
+
+[HMR]  - ./src/css/index.css
+log.js:24 [HMR] App is up to date.
+
+就只會更改這個檔案，不會整個refresh
+
+但js需要在main.js加上
+```
+if (module.hot) {
+  module.hot.accept('./js/add');
+  module.hot.accept('./js/count', function(count) {// 一但count發生變化後，就調用附加的函式
+    const result = count(2, 3);
+    console.log(result);
+  });
+  // 後續還有增加需要熱module更新的，加在這下面
+}
+```
+但這樣很麻煩，要一直加，如果是vue或react, 就可以各別用 vue-loader和react-hot-loader來處理

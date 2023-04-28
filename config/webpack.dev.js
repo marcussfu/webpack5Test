@@ -92,6 +92,7 @@ module.exports = {
         host: 'localhost',
         port: '3100',
         open: true, // open broswer auto
+        hot: true, // open HMR(only development)
     },
     mode: "development",
     devtool: 'cheap-module-source-map',

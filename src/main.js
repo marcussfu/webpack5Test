@@ -7,4 +7,4 @@ import './sass/box3.sass';
 import './sass/box4.scss';
 import './stylus/box5.styl';
 
-console.log(add(1,6));
+console.log(add(4,6));
