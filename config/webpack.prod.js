@@ -3,6 +3,24 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
+const getStyleLoader = (pre) => {
+    return [ 
+        MiniCssExtractPlugin.loader, // css from js to create style tag in html to active
+        "css-loader", //css to commonjs to js
+        {
+            loader: "postcss-loader",
+            options: {
+                postcssOptions: {
+                    plugins: [
+                        "postcss-preset-env",// solve most style compatible problem
+                    ],
+                },
+            },
+        },
+        pre,
+    ].filter(Boolean);
+};
+
 module.exports = {
     entry: "./src/main.js",
     output: {
@@ -17,74 +35,19 @@ module.exports = {
             // loader
             {
                 test: /\.css$/,//only detect .css
-                use: [ //execute order from right to left, down to up
-                    MiniCssExtractPlugin.loader, // css from js to create style tag in html to active
-                    "css-loader", //css to commonjs to js
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",// solve most style compatible problem
-                                ],
-                            },
-                        },
-                    },
-                ],
+                use: getStyleLoader(), //execute order from right to left, down to up
             },
             {
                 test: /\.less$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",// solve most style compatible problem
-                                ],
-                            },
-                        },
-                    },
-                    'less-loader'
-                ],
+                use: getStyleLoader('less-loader'),
             },
             {
                 test: /\.s[ac]ss$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",// solve most style compatible problem
-                                ],
-                            },
-                        },
-                    },
-                    'sass-loader'
-                ],
+                use: getStyleLoader('sass-loader'),
             },
             {
                 test: /\.styl$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            postcssOptions: {
-                                plugins: [
-                                    "postcss-preset-env",// solve most style compatible problem
-                                ],
-                            },
-                        },
-                    },
-                    'stylus-loader'
-                ],
+                use: getStyleLoader('stylus-loader'),
             },
             {
                 test: /\.(png|jpe?g|gif|webp|svg)$/,
