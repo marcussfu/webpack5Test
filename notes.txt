@@ -119,4 +119,27 @@ ex: css-loader
 getStyleLoader()
 
 
+===========================================
+
+基礎css壓縮
+CssMinimizerWebpackPlugin
+
+1. npm install css-minimizer-webpack-plugin --save-dev
+
+2. 在webpack.prod.js引入const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+
+3. 再於 module.exports加入
+optimization: {
+    minimizer: [
+      // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+      // `...`,
+      new CssMinimizerPlugin(),
+    ],
+  },
+
+
+
+
+
+
 

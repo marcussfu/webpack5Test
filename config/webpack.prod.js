@@ -2,6 +2,7 @@ const path = require("path");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 
 const getStyleLoader = (pre) => {
     return [ 
@@ -96,6 +97,13 @@ module.exports = {
             filename: "static/css/main.css",
         }),
     ],
+    optimization: {
+        minimizer: [
+            // For webpack@5 you can use the `...` syntax to extend existing minimizers (i.e. `terser-webpack-plugin`), uncomment the next line
+            // `...`,
+            new CssMinimizerPlugin(),
+        ],
+    },
     // WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB)
     // Assets: static/images/74c4383e31.gif (11.5 MiB)
     performance: {
