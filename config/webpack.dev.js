@@ -94,4 +94,5 @@ module.exports = {
         open: true, // open broswer auto
     },
     mode: "development",
+    devtool: 'cheap-module-source-map',
 };

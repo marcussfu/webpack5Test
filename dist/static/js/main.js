@@ -20,3 +20,4 @@ const add = (x, y) => {
 console.log(js_add(1, 6));
 /******/ })()
 ;
+//# sourceMappingURL=main.js.map
