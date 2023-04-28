@@ -1,1 +1,1 @@
-(()=>{"use strict";console.log(1+6)})();
+!function(){"use strict";console.log(1+6)}();

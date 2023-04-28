@@ -19,7 +19,17 @@ module.exports = {
                 test: /\.css$/,//only detect .css
                 use: [ //execute order from right to left, down to up
                     MiniCssExtractPlugin.loader, // css from js to create style tag in html to active
-                    "css-loader" //css to commonjs to js
+                    "css-loader", //css to commonjs to js
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env",// solve most style compatible problem
+                                ],
+                            },
+                        },
+                    },
                 ],
             },
             {
@@ -27,6 +37,16 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env",// solve most style compatible problem
+                                ],
+                            },
+                        },
+                    },
                     'less-loader'
                 ],
             },
@@ -35,6 +55,16 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env",// solve most style compatible problem
+                                ],
+                            },
+                        },
+                    },
                     'sass-loader'
                 ],
             },
@@ -43,6 +73,16 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            postcssOptions: {
+                                plugins: [
+                                    "postcss-preset-env",// solve most style compatible problem
+                                ],
+                            },
+                        },
+                    },
                     'stylus-loader'
                 ],
             },

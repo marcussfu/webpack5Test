@@ -90,3 +90,26 @@ npm i --save-dev mini-css-extract-plugin
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 要把style.loader改成MiniCssExtractPlugin.loader //提取css成單獨文件
+
+======================================================================
+
+css兼容性處理
+
+1. npm i postcss-loader postcss postcss-preset-env -D
+
+2. 在webpack.prod.js的rules的use裡加上postcss-loader
+但要加在css-loader後面，其他loader前面
+
+ex: css-loader
+              <- 加在這postcss-loader
+    sass-loader
+
+3. 在package.json加上
+"browserslist": [
+    "last 2 version",
+    "> 1%",
+    "not dead"
+  ]
+以設定交集的瀏覽器條件
+
+
