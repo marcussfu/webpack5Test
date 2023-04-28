@@ -44,26 +44,27 @@ npm i eslint eslint-webpack-plugin --save-dev
 
 ===============================================================
 
-babel
+## babel
 
 npm install -D babel-loader @babel/core @babel/preset-env
 
 ===============================================================
 
-處理html資源
+## 處理html資源
 npm install --save-dev html-webpack-plugin
 
 ===============================================================
 
-開發環境自動打包，只要Code修改儲存，就會自動npx webpack(實時重新加載
+## 開發環境自動打包，只要Code修改儲存，就會自動npx webpack(實時重新加載
 
 npm i webpack-dev-server -D
-
 
 npx webpack serve
 
 
 ===============================================================
+
+## 在package.json的scripts設定好shortcut
 
 dev 模式
 npx webpack serve --config ./config/webpack.dev.js
@@ -71,13 +72,12 @@ npx webpack serve --config ./config/webpack.dev.js
 production 模式
 npx webpack --config ./config/webpack.prod.js
 
-在package.json的scripts設定好shortcut
 就能直接npm start(npm run dev) 開發模式 、npm run build 生產模式了
 
 
 ============================================
 
-提取CSS成單獨文件
+## 提取CSS成單獨文件
 
 css打包在js中，當js load進來後，再創建style來生成樣式
 但網站這樣會出現閃屏
@@ -93,7 +93,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 ======================================================================
 
-css兼容性處理
+## css兼容性處理
 
 1. npm i postcss-loader postcss postcss-preset-env -D
 
@@ -114,14 +114,15 @@ ex: css-loader
 
 ==========================================
 
-封裝style loader函數
+## 封裝style loader函數
+
 讓重覆的style loader可以透過呼叫函式直接取得，有不同的再透過傳入pre再讀取進來
 getStyleLoader()
 
 
 ===========================================
 
-基礎css壓縮
+## 基礎css壓縮
 CssMinimizerWebpackPlugin
 
 1. npm install css-minimizer-webpack-plugin --save-dev
@@ -139,10 +140,21 @@ optimization: {
 
 ===========================================
 
-基礎html和js在production模式下默認壓縮成一行了
+## 基礎html和js在production模式下默認壓縮成一行了
 
 開發模式: code可以編譯自動化運行
 生產模式: code編譯優化輸出，壓縮最小化輸出檔
+
+
+======================================================
+======================================================
+
+## webpack高級，就是進行webpack優化，讓編譯和運行時效能更好
+
+* 提升開發體驗
+* 提升打包速度
+* 減少code體績
+* 優化code運行性能
 
 
 
