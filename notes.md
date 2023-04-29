@@ -42,6 +42,7 @@ extends // 繼承
 
 npm i eslint eslint-webpack-plugin --save-dev
 
+Eslint檢查、Babel編譯
 
 ## babel
 
@@ -255,6 +256,34 @@ new ESLintPlugin({
     exclude: 'node_modules', // 默認值，不寫也會排除掉node_modules
 }),
 ```
+
+開發環境: 一樣需要重新 npm start
+生產環境: npm run build
+看有沒有正常編譯
+
+## cache
+* Why
+每次打包js都要經過eslint檢查和babel編譯，速度比較慢
+可以緩存之前的eslint檢查和babel編譯結果，這樣第二次打包速度就會更快了
+* What
+對eslint檢查和babel編譯結果進行緩存。
+* How
+* 開發環境和生產環境都可以用
+Babel
+  js
+  options: {
+    cacheDirectory: true, // 開啟babel緩存
+    cacheCompression: false, // 關閉緩存文件壓縮
+  }
+
+Eslint
+在new EsLintPlugin({
+  cache: true, // 開啟緩存
+  cacheLocation: path.resolve(
+    __dirname,
+    "../node_modules/.cache/eslintcache"
+  ),
+})
 
 開發環境: 一樣需要重新 npm start
 生產環境: npm run build

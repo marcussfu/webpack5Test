@@ -76,9 +76,11 @@ module.exports = {
                         // exclude: /node_modules/, // 排除node_modules下的js，其他文件都處理
                         include: path.resolve(__dirname, '../src'), // 只處理src下的文件，其他文件不處理
                         loader: 'babel-loader',
-                        // options: {
-                        //     presets: ['@babel/preset-env'],
-                        // },
+                        options: {
+                            // presets: ['@babel/preset-env'],
+                            cacheDirectory: true, // 開啟babel緩存
+                            cacheCompression: false, // 關閉緩存文件壓縮
+                        },
                     },
                 ]
             }
@@ -88,6 +90,11 @@ module.exports = {
         new ESLintPlugin({
             context: path.resolve(__dirname, "../src"),
             exclude: 'node_modules', // 默認值，不寫也會排除掉node_modules
+            cache: true, // 開啟緩存
+            cacheLocation: path.resolve(
+                __dirname,
+                "../node_modules/.cache/eslintcache"
+            ),
         }),
         new HtmlWebpackPlugin({
             // template, 以public/index.html文件創建新的html文件
