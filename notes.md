@@ -268,7 +268,7 @@ new ESLintPlugin({
 * What
 對eslint檢查和babel編譯結果進行緩存。
 * How
-* 開發環境和生產環境都可以用
+開發環境和生產環境都可以用
 Babel
   js
   options: {
@@ -288,3 +288,62 @@ Eslint
 開發環境: 一樣需要重新 npm start
 生產環境: npm run build
 看有沒有正常編譯
+
+## Thead 多核打包
+* Why
+專案愈大，打包速度會越慢，想要提升打包速度
+其實就是提升js的打包速度，因為其他文件相對較少
+js主要是eslint、babel、terser三個工具
+所以就是要提升他們的運行速度
+可以開啟多核同時處理js文件，這樣速度就比之前單核打包更快了
+* What
+多核打包，同時一起打包，速度更快
+warn: 請僅在特別耗時的操作中使用，因為每個核啟動就有大約600ms左右開銷
+* How
+開發環境和生產環境都可以用
+1. 獲取CPU的核數
+   const os = require("os"); // nodejs 核心module，直接使用
+   const threads = os.cpus().length; // cpu核數
+2. 下載包
+   npm i thread-loader -D
+3. 使用
+```
+   // babel
+   use: [
+      { // 要在babel-loader前面
+          loader: 'thread-loader', // 開啟多核
+          options: {
+              work: threads, // 核數量
+          }
+      },
+      {
+          loader: 'babel-loader',
+          ...
+      },
+  ]
+
+  // eslint
+  new EsLintPlugin({
+    ...
+    threads, // 開啟多核和設置多核數量
+  })
+```
+
+引入壓縮的函式庫(內建)
+```
+// 開發模式下沒有壓縮，所以就不用加在webpack.dev.js
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+
+在optimization加入壓縮的相關操作
+optimization: {
+  minimizer: [
+    ...
+    new TerserWebpackPlugin({
+        parallel: threads, // 開啟多核和設置多核數量
+    }),
+  ]
+}),
+```
+
+打包初期會覺得反而變慢，是因為開啟多核處理的關係
+隨著專案規模愈大，就會感受到打包速度變快

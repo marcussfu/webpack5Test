@@ -1,6 +1,9 @@
+const os = require("os"); // nodejs 核心module，直接使用
 const path = require("path");
 const ESLintPlugin = require('eslint-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const threads = os.cpus().length; // cpu核數
 
 module.exports = {
     entry: "./src/main.js",
@@ -75,12 +78,22 @@ module.exports = {
                         test: /\.m?js$/,
                         // exclude: /node_modules/, // 排除node_modules下的js，其他文件都處理
                         include: path.resolve(__dirname, '../src'), // 只處理src下的文件，其他文件不處理
-                        loader: 'babel-loader',
-                        options: {
-                            // presets: ['@babel/preset-env'],
-                            cacheDirectory: true, // 開啟babel緩存
-                            cacheCompression: false, // 關閉緩存文件壓縮
-                        },
+                        use: [
+                            {
+                                loader: 'thread-loader', // 開啟多核
+                                options: {
+                                    work: threads, // 核數量
+                                },
+                            },
+                            {
+                                loader: 'babel-loader',
+                                options: {
+                                    // presets: ['@babel/preset-env'],
+                                    cacheDirectory: true, // 開啟babel緩存
+                                    cacheCompression: false, // 關閉緩存文件壓縮
+                                },
+                            },
+                        ],
                     },
                 ]
             }
@@ -95,6 +108,7 @@ module.exports = {
                 __dirname,
                 "../node_modules/.cache/eslintcache"
             ),
+            threads, // 開啟多核和設置多核數量
         }),
         new HtmlWebpackPlugin({
             // template, 以public/index.html文件創建新的html文件
