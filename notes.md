@@ -362,3 +362,17 @@ webpack已經默認使用了
 ex: 使用了math的mul函式，而沒有用divide函式
 打包後就只會有mul函式被打包，divide就沒有
 
+## 減少babel生成文件的體積
+* Why
+babel為編譯的文件都插入輔助代碼，讓體積變大
+ex: 一些公共方法使用了非常小的輔助代碼，比如: _extend，默認會加到每一個需要的文件中
+
+可以將輔助代碼作為獨立module，避免重覆引入
+* What
+@babel/plugin-transform-runtime: 禁用babel自動對每個文件的runtime注入，而是引入@babel/plugin-transform-runtime，並且讓所有輔助代碼從這裡引用
+* How
+開發環境和生產環境都可以用
+module愈多提速會愈明顯
+1. down pacakge
+   npm i @babel/plugin-transform-runtime -D
+2. 在babel-loader裡加入plugins: ["@babel/plugin-transform-runtime"]//減少代碼體積
