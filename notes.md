@@ -432,3 +432,29 @@ new ImageMinimizerPlugin({
 發現如果圖片太大，像girl的gif有12m，在npm run build時
 就會出現"stdout maxBuffer length exceeded"的錯誤
 所以最好是讓圖片小於2m
+
+## code split
+* Why
+打包code會把所有js都包到一個文件中，體積會太大，如果只要渲染首頁
+就應該只加載首頁的js文件，其他文件都不應該加載
+
+所以需要分割代碼，生成多個js文件，渲染哪個頁面就只加載某個js文件
+這樣加載的資源就少，速度就更快
+* What
+code split主要做兩件事:
+1. 分割文件: 將打包生成的文件分割生成多個js文件
+2. 按需加載: 需要哪個文件就加載哪個文件
+* How
+1. 多入口
+本來entry只有main.js，output也只有main.js
+ex: 改成
+entry: {
+  // 有多個入口文件
+  app: "./src/app.js",
+  main: "./src/main.js,
+},
+output: {
+  path: path.resolve(__dirname, "dist"),
+  filename: "[name].js", // webpack命名方式，[name]以文件名自已命名
+},
+2. 
