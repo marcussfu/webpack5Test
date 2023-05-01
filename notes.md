@@ -457,4 +457,52 @@ output: {
   path: path.resolve(__dirname, "dist"),
   filename: "[name].js", // webpack命名方式，[name]以文件名自已命名
 },
-2. 
+2. 多入口提取公共module
+entry: {
+  // 有多個入口文件，都import了math.js
+  app: "./src/app.js",
+  main: "./src/main.js,
+},
+在打包後，app.js和main.js都會引入相同的math.js，體積變大
+
+用SplitChunksPlugin來分割js，提取共用module出來
+```
+module.exports = {
+  //...
+  optimization: {
+    splitChunks: {
+      // include all types of chunks
+      chunks: 'all',
+      //chunks: 'async',
+      //minSize: 20000,
+      //minRemainingSize: 0,
+      //minChunks: 1,
+      //maxAsyncRequests: 30,
+      //maxInitialRequests: 30,
+      //enforceSizeThreshold: 50000,
+      //cacheGroups: {
+      //  defaultVendors: {
+      //    test: /[\\/]node_modules[\\/]/,
+      //    priority: -10,
+      //    reuseExistingChunk: true,
+      //  },
+      //  default: { // 沒有寫的就沿用上面的，有寫的會覆蓋上面的參數值
+      //    minChunks: 2,
+      //    priority: -20,
+      //    reuseExistingChunk: true,
+      //  },
+      //},
+      cacheGroups: {
+        default:" {
+          minSize: 0, // 我們定義的文件體積太小了，為了測試，所以要改打包的最小文件體積
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        }
+      },
+    },
+  },
+};
+```
+entry幾個，就會出來幾個文件，但會不會再多其他文件，就看chunk分割的結果
+3. 
