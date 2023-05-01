@@ -376,3 +376,59 @@ module愈多提速會愈明顯
 1. down pacakge
    npm i @babel/plugin-transform-runtime -D
 2. 在babel-loader裡加入plugins: ["@babel/plugin-transform-runtime"]//減少代碼體積
+
+## 壓縮圖片
+* Why
+如果引用較多圖片，圖片體積就會比較大，請求速度會比較慢
+所以對圖片進行壓縮，減少圖片體積
+warn: local靜態圖片才需要壓縮，如果圖片是用網路url取得，那就不用壓縮了
+* What
+image-minimizer-webpack-plugin: 用來壓縮圖片的plugin
+* How
+1. down package
+npm i image-minimizer-webpack-plugin imagemin -D
+2. 有損壓縮或無損壓縮的package下載
+無損壓縮: 體積會大些，但沒損害圖片
+npm i imagemin-gifsicle imagemin-jpegtran imagemin-optipng imagemin-svgo -D
+有損壓縮: 體績會小些，但有損害圖片
+npm i imagemin-gifsicle imagemin-mozjpeg imagemin-pngquant imagemin-svgo -D
+3. 配置
+以無損壓縮配置為例: 
+在webpack.prod.js(壓縮只要在生產環境使用)
+加入const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+
+壓縮要放在optimization
+```
+// 壓縮圖片
+new ImageMinimizerPlugin({
+  minimizer: {
+    implementation: ImageMinimizerPlugin.imageminGenerate,
+    options: {
+      plugins:[
+        ["gifsicle", { interlaced: true }],
+        ["jpegtran", { progressive: true }],
+        ["optipng", { optimizationLevel: 5 }],
+        [
+          "svgo",
+          {
+            plugins: [
+              "preset-default",
+              "prefixIds",
+              {
+                name: "sortAttrs",
+                params: {
+                  xmlnsOrder: "alphabetical",
+                },
+              },
+            ],
+          },
+        ],
+      ],
+    },
+  },
+}),
+```
+4. 其他
+發現如果圖片太大，像girl的gif有12m，在npm run build時
+就會出現"stdout maxBuffer length exceeded"的錯誤
+所以最好是讓圖片小於2m

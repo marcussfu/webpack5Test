@@ -5,12 +5,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
+const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const threads = os.cpus().length; // cpu核數
 
 // 用來獲得處理 style的loader
 const getStyleLoader = (pre) => {
-    return [ 
+    return [
         MiniCssExtractPlugin.loader, // css from js to create style tag in html to active
         "css-loader", //css to commonjs to js
         {
@@ -63,7 +64,7 @@ module.exports = {
                         type: "asset",
                         parser: {
                             dataUrlCondition: {
-                                // small than 10kb's pic turn to base64
+                                // small than 10kb's pic turn to base64(小於 10kb的轉base64)
                                 // good: reduce request count   bad: size bigger
                                 maxSize: 10 * 1024, // 10kb
                             }
@@ -138,6 +139,43 @@ module.exports = {
             // 壓縮 js
             new TerserWebpackPlugin({
                 parallel: threads, // 開啟多核和設置多核數量
+            }),
+            new ImageMinimizerPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerPlugin.imageminMinify,
+                    options: {
+                        // Lossless optimization with custom option
+                        // Feel free to experiment with options for better result for you
+                        plugins: [
+                            ["gifsicle", { interlaced: true }],
+                            ["jpegtran", { progressive: true }],
+                            ["optipng", { optimizationLevel: 5 }],
+                            // Svgo configuration here https://github.com/svg/svgo#configuration
+                            [
+                                "svgo",
+                                {
+                                    plugins: [
+                                        {
+                                            name: "preset-default",
+                                            params: {
+                                                overrides: {
+                                                    removeViewBox: false,
+                                                    addAttributesToSVGElement: {
+                                                        params: {
+                                                            attributes: [
+                                                                { xmlns: "http://www.w3.org/2000/svg" },
+                                                            ],
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
+                        ],
+                    },
+                },
             }),
         ],
     },
