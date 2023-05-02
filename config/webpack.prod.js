@@ -178,6 +178,11 @@ module.exports = {
                 },
             }),
         ],
+        // 代碼分割配置
+        splitChunks: {
+            chunks: 'all',
+            // 其他都用默認值
+        },
     },
     // WARNING in asset size limit: The following asset(s) exceed the recommended size limit (244 KiB)
     // Assets: static/images/74c4383e31.gif (11.5 MiB)

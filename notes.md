@@ -524,4 +524,32 @@ document.getElementById("btnForLazyload").onclick = function() {
             console.log("module loading fail", err);
         });
 };
-4. 
+4. 單入口-按需要加載(Lazy-loading)
+如果是spa(單頁應用)
+entry和outputs都改成一個
+
+把分割的splitChunks放在optimization裡
+optimization: {
+  ...
+  // 代碼分割配置
+  splitChunks: {
+      chunks: 'all',
+      // 其他都用默認值
+  },
+},
+
+在main.js加上點擊button再import函式的做法
+document.getElementById("btnForLazyloadMul").onclick = function() {
+    import('./js/math').then(({mul}) => {
+        console.log('mul', mul(3,3));
+    })
+}
+
+如果會出現eslint提示說import不能動態載入
+在.eslintrc.js加入
+plugins: ["import"], // 解決動態導入語法報錯
+
+在npm run build後，會看到動態載入的函式另外被分割成不同的文件，經過dist的index.html測試(透過工具的network)
+
+可以看到點擊button才會載入對應的函式
+1. 

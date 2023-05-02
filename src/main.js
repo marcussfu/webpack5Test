@@ -1,5 +1,5 @@
 import add from './js/add';
-import {mul} from './js/math';
+// import {mul} from './js/math';
 
 import './css/index.css';
 import './css/all.css';
@@ -9,7 +9,7 @@ import './sass/box3.sass';
 import './sass/box4.scss';
 import './stylus/box5.styl';
 
-console.log(mul(2,3));
+
 console.log(add(4,6));
 
 document.getElementById("btnForLazyload").onclick = function() {
@@ -23,3 +23,9 @@ document.getElementById("btnForLazyload").onclick = function() {
             console.log("module loading fail", err);
         });
 };
+
+document.getElementById("btnForLazyloadMul").onclick = function() {
+    import('./js/math').then(({mul}) => {
+        console.log('mul', mul(3,3));
+    })
+}

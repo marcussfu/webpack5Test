@@ -14,5 +14,5 @@ module.exports = {
     rules: {
         "no-var": 2, // can't use var variable
     },
-    
+    plugins: ["import"], // 解決動態導入語法報錯
 }
