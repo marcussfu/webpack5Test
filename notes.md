@@ -552,4 +552,29 @@ plugins: ["import"], // 解決動態導入語法報錯
 在npm run build後，會看到動態載入的函式另外被分割成不同的文件，經過dist的index.html測試(透過工具的network)
 
 可以看到點擊button才會載入對應的函式
+
+warn: error  Parsing error: 'import' and 'export' may only appear at the top level
+
+動態import在開發環境會出現這錯誤，查stackoverflow後得到解答
+
+把.eslintrc.js裡的ecmaVersion: 6, 改成 11，大概是之前的es6沒有支援吧，11就內建有支援動態import的eslint檢查了
+
+記得重新 npm start
+
+5. 給分割的chunk文件命名
+分割後的chunk js文件，會自動被命名成什麼14.main.js 根本不知道代表什麼
+
+所以需要透過重新命名這些chunk分割打包後的文件名
+
+先在main.js的動態載入函式的地方改成這樣
+ex: import(/* webpackChunkName: "reduce" */'./js/reduce')
+
+/* webpackChunkName: "reduce" */ 是webpack魔法命名
+"reduce" 就是我們想要給這個chunk文件的名字
+
+然後還要在webpack.prod.js的output裡加上
+// 給打包輸出的其他文件命名，name就是webpack魔法命名時指定的名字
+chunkFilename: 'static/js/[name].js',
+
+最後再npm run build，就可以看到dist的chunk文件變成清楚的名字了
 1. 

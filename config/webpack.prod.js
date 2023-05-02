@@ -34,6 +34,8 @@ module.exports = {
         path: path.resolve(__dirname, "../dist"),
         // entry js
         filename: "static/js/main.js",
+        // 給打包輸出的其他文件命名
+        chunkFilename: 'static/js/[name].js',
         // auto clean last dist
         clean: true,
     },

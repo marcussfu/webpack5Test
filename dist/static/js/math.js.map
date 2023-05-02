@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/math.js","mappings":"qLAAO,MAAMA,EAAMA,CAACC,EAAGC,IACZD,EAAIC,EAGFC,EAASA,CAACF,EAAGC,IACfD,EAAIC,C","sources":["webpack://webpack5test/./src/js/math.js"],"sourcesContent":["export const mul = (x, y) => {\n    return x * y;\n};\n\nexport const divide = (x, y) => {\n    return x / y;\n}"],"names":["mul","x","y","divide"],"sourceRoot":""}

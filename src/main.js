@@ -9,13 +9,13 @@ import './sass/box3.sass';
 import './sass/box4.scss';
 import './stylus/box5.styl';
 
-
 console.log(add(4,6));
 
 document.getElementById("btnForLazyload").onclick = function() {
     // import 動態載入，會將動態載入的文件代碼分割成單獨module
     // 在需要使用的時候自動加載
-    import('./js/reduce')
+    // /* webpackChunkName: "reduce" */ webpack魔法命名
+    import(/* webpackChunkName: "reduce" */'./js/reduce')
         .then((res) => {
             console.log("module loading success", res.default(2,1));
         })
@@ -25,7 +25,8 @@ document.getElementById("btnForLazyload").onclick = function() {
 };
 
 document.getElementById("btnForLazyloadMul").onclick = function() {
-    import('./js/math').then(({mul}) => {
+    // /* webpackChunkName: "reduce" */ webpack魔法命名
+    import(/* webpackChunkName: "math" */'./js/math').then(({mul}) => {
         console.log('mul', mul(3,3));
-    })
+    });
 }

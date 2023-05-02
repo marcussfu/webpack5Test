@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkwebpack5test=self.webpackChunkwebpack5test||[]).push([[600],{587:function(e,t,n){n.r(t),n.d(t,{divide:function(){return c},mul:function(){return u}});const u=(e,t)=>e*t,c=(e,t)=>e/t}}]);
+//# sourceMappingURL=math.js.map
