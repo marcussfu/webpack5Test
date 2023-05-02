@@ -545,7 +545,7 @@ document.getElementById("btnForLazyloadMul").onclick = function() {
     })
 }
 
-如果會出現eslint提示說import不能動態載入
+如果會出現eslint提示說import不能動態載入(可能是舊的作法)
 在.eslintrc.js加入
 plugins: ["import"], // 解決動態導入語法報錯
 
@@ -577,4 +577,27 @@ ex: import(/* webpackChunkName: "reduce" */'./js/reduce')
 chunkFilename: 'static/js/[name].js',
 
 最後再npm run build，就可以看到dist的chunk文件變成清楚的名字了
-1. 
+6. 統一命名
+開發環境和生產環境都可以設定，設定完記得重新npm run build 和 npm start
+在webpack.prod.js和webpack.dev.js裡，有各種對輸出文件的命名
+* output的文件名
+* chunk的文件名
+* media的文件名(縮小成10位)
+* css整合成一個檔的檔名，css之後會有chunk的文件名之類
+
+可以的話，最好讓重覆使用的共用設定，讓命名可以直接透過設定清楚呈現
+在output裡的
+```
+filename: "static/js/[name].js", // 會直接取用默認的entry名字，就算之後改成多入口也沒問題
+// 給打包輸出的其他文件命名
+chunkFilename: "static/js/[name].chunk.js", // 加個chunk的副檔名比較清楚呈現這個是chunk分割的文件
+assetModuleFilename: 'static/media/[hash:10][ext][query]', // 圖片、字體等通過type:asset處理資源命名方式，統一在這設定
+```
+
+在plugins裡的MiniCssExtractPlugin
+```
+new MiniCssExtractPlugin({
+    filename: "static/css/[name].css", // 將來也可能多入口，不見得都合成一個檔，所以filename也是設定成[name]可直接取對應設定的方式
+    chunkFilename: 'static/css/[name].chunk.css', // 如果也有動態import css檔的時候，就會需要也對chunk的csst檔命名
+}),
+```

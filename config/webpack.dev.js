@@ -11,7 +11,10 @@ module.exports = {
         // 開發模式沒有輸出
         path: undefined,
         // entry js
-        filename: "static/js/main.js",
+        filename: "static/js/[name].js", // 會直接取用默認的entry名字，就算之後改成多入口也沒問題
+        // 給打包輸出的其他文件命名
+        chunkFilename: "static/js/[name].chunk.js", // 加個chunk的副檔名比較清楚呈現這個是chunk分割的文件
+        assetModuleFilename: 'static/media/[hash:10][ext][query]', // 圖片、字體等通過type:asset處理資源命名方式，統一在這設定
     },
     module: {
         rules: [
@@ -60,19 +63,19 @@ module.exports = {
                                 maxSize: 10 * 1024, // 10kb
                             }
                         },
-                        generator: {
-                            // export pic url and name
-                            // [hash:10] hash filename only take 10 digit
-                            filename: 'static/images/[hash:10][ext][query]',
-                        }
+                        // generator: {
+                        //     // export pic url and name
+                        //     // [hash:10] hash filename only take 10 digit
+                        //     filename: 'static/images/[hash:10][ext][query]',
+                        // }
                     },
                     {
                         test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
                         type: "asset/resource",
-                        generator: {
-                            // export pic url and name
-                            filename: 'static/media/[hash:10][ext][query]',
-                        }
+                        // generator: {
+                        //     // export pic url and name
+                        //     filename: 'static/media/[hash:10][ext][query]',
+                        // }
                     },
                     {
                         test: /\.m?js$/,

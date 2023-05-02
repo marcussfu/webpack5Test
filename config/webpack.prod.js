@@ -33,9 +33,10 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, "../dist"),
         // entry js
-        filename: "static/js/main.js",
+        filename: "static/js/[name].js", // 會直接取用默認的entry名字，就算之後改成多入口也沒問題
         // 給打包輸出的其他文件命名
-        chunkFilename: 'static/js/[name].js',
+        chunkFilename: "static/js/[name].chunk.js", // 加個chunk的副檔名比較清楚呈現這個是chunk分割的文件
+        assetModuleFilename: 'static/media/[hash:10][ext][query]', // 圖片、字體等通過type:asset處理資源命名方式，統一在這設定
         // auto clean last dist
         clean: true,
     },
@@ -71,19 +72,19 @@ module.exports = {
                                 maxSize: 10 * 1024, // 10kb
                             }
                         },
-                        generator: {
-                            // export pic url and name
-                            // [hash:10] hash filename only take 10 digit
-                            filename: 'static/images/[hash:10][ext][query]',
-                        }
+                        // generator: {
+                        //     // export pic url and name
+                        //     // [hash:10] hash filename only take 10 digit
+                        //     filename: 'static/images/[hash:10][ext][query]',
+                        // }
                     },
                     {
                         test: /\.(ttf|woff2?|mp3|mp4|avi)$/,
                         type: "asset/resource",
-                        generator: {
-                            // export pic url and name
-                            filename: 'static/media/[hash:10][ext][query]',
-                        }
+                        // generator: {
+                        //     // export pic url and name
+                        //     filename: 'static/media/[hash:10][ext][query]',
+                        // }
                     },
                     {
                         test: /\.m?js$/,
@@ -128,7 +129,8 @@ module.exports = {
             template: path.resolve(__dirname, "../public/index.html"),
         }),
         new MiniCssExtractPlugin({
-            filename: "static/css/main.css",
+            filename: "static/css/[name].css", // 將來也可能多入口，不見得都合成一個檔，所以filename也是設定成[name]可直接取對應設定的方式
+            chunkFilename: 'static/css/[name].chunk.css', // 如果也有動態import css檔的時候，就會需要也對chunk的csst檔命名
         }),
     ],
     optimization: {
