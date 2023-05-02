@@ -457,7 +457,7 @@ output: {
   path: path.resolve(__dirname, "dist"),
   filename: "[name].js", // webpack命名方式，[name]以文件名自已命名
 },
-2. 多入口提取公共module
+2. 多入口-提取公共module
 entry: {
   // 有多個入口文件，都import了math.js
   app: "./src/app.js",
@@ -505,4 +505,23 @@ module.exports = {
 };
 ```
 entry幾個，就會出來幾個文件，但會不會再多其他文件，就看chunk分割的結果
-3. 
+3. 多入口-按需要加載(Lazy-loading)
+* Why
+直接import js文件，就算沒有用到，也會一起打包載入，體積變大變慢
+* What
+可以的話，就需要再載入(import)
+* How
+像是在點擊button時，再載入
+ex:
+document.getElementById("btnForLazyload").onclick = function() {
+    // import 動態載入，會將動態載入的文件代碼分割成單獨module
+    // 在需要使用的時候自動加載
+    import('./js/reduce')
+        .then((res) => {
+            console.log("module loading success", res.default(2,1));
+        })
+        .catch((err) => {
+            console.log("module loading fail", err);
+        });
+};
+4. 

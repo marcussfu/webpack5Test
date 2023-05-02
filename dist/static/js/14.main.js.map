@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/14.main.js","mappings":"qHAIA,UAJeA,CAACC,EAAEC,IACPD,EAAIC,C","sources":["webpack://webpack5test/./src/js/reduce.js"],"sourcesContent":["const reduce = (x,y) => {\n    return x - y;\n};\n\nexport default reduce;"],"names":["reduce","x","y"],"sourceRoot":""}
