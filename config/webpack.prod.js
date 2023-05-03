@@ -7,6 +7,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 
 const threads = os.cpus().length; // cpu核數
 
@@ -128,6 +129,7 @@ module.exports = {
             // template, 以public/index.html文件創建新的html文件
             // 新的html文件重點: 1. 結構和原來一致，2. 自動引入打包輸出的資源
             template: path.resolve(__dirname, "../public/index.html"),
+            // title: 'Progressive Web Application',
         }),
         new MiniCssExtractPlugin({
             filename: "static/css/[name].[contenthash:10].css", // 將來也可能多入口，不見得都合成一個檔，所以filename也是設定成[name]可直接取對應設定的方式
@@ -137,6 +139,12 @@ module.exports = {
             rel: 'preload',
             as: 'script',
             // rel: 'prefetch',
+        }),
+        new WorkboxPlugin.GenerateSW({
+            // these options encourage the ServiceWorkers to get in there fast
+            // and not allow any straggling "old" SWs to hang around
+            clientsClaim: true,
+            skipWaiting: true,
         }),
     ],
     optimization: {

@@ -750,3 +750,58 @@ core-js是專門用來做ES6及以上API的polyfill(補丁)，讓我們在不兼
       ]
     }
    ```
+
+## PWA
+* Why
+Web App, 一但離線，就沒辦法開啟了
+
+希望提供離線服務
+* What
+漸進式網路應用程式(progressive web application - PWA): 是一種可以提供類似於native app(原生應用程式) 體驗的Web App技術
+
+最重要的是，在離線(offline)時應用程式能夠繼續進行功能
+
+透過Service Workers實現
+* How
+1. 下載package
+   npm i workbox-webpack-plugin -D
+2. 修改webpack.prod.js
+   ```
+   const WorkboxPlugin = require('workbox-webpack-plugin');
+
+   // 在plugins加入
+   new WorkboxPlugin.GenerateSW({
+      // these options encourage the ServiceWorkers to get in there fast
+      // and not allow any straggling "old" SWs to hang around
+      clientsClaim: true,
+      skipWaiting: true,
+   }),
+
+   // 在main.js加入
+   if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/service-worker.js').then(registration => {
+            console.log('SW registered: ', registration);
+          }).catch(registrationError => {
+            console.log('SW registration failed: ', registrationError);
+          });
+        });
+    }
+   ```
+   然後重新打包 npm run build
+
+   測試dist的html在沒有網路的狀態下，還是不能打開的，是因為serviceWorker沒有註冊成功
+3. 測試在沒有網路的狀態，這個網頁能不能打開
+   * 先安裝http-server package
+   npm install http-server --save-dev
+   * 再於package.json 加上指令去測試我們打包後的dist
+   "pwa": "http-server dist"
+   * 在之前npm run build都打包好後，再來執行 npm run pwa, 就可以看到跑出
+   ```
+    Available on:
+      http://127.0.0.1:8080
+      http://100.69.34.41:8080
+   ```
+   這時候點擊http://127.0.0.1:8080，就是測試打包後的dist的html，可以看到console秀出 "SW registered"
+
+   再去network把網路關掉，就可以看到畫面一樣出現了。
