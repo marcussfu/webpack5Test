@@ -791,6 +791,10 @@ Web App, 一但離線，就沒辦法開啟了
    然後重新打包 npm run build
 
    測試dist的html在沒有網路的狀態下，還是不能打開的，是因為serviceWorker沒有註冊成功
+
+   在console會出現這樣的錯誤
+
+   SW registration failed:  TypeError: Failed to register a ServiceWorker for scope ('http://127.0.0.1:5500/') with script ('http://127.0.0.1:5500/service-worker.js'): A bad HTTP response code (404) was received when fetching the script.
 3. 測試在沒有網路的狀態，這個網頁能不能打開
    * 先安裝http-server package
    npm install http-server --save-dev
@@ -805,3 +809,25 @@ Web App, 一但離線，就沒辦法開啟了
    這時候點擊http://127.0.0.1:8080，就是測試打包後的dist的html，可以看到console秀出 "SW registered"
 
    再去network把網路關掉，就可以看到畫面一樣出現了。
+
+## 總結
+
+從四個角度對webpack和代碼進行優化
+1. 提升開發體驗
+   * 使用 Source Map 讓開發或上線時代碼報錯能有更加準確的錯誤提示。
+2. 提升webpack打包構建速度
+   * 使用 HotModuleReplacement 讓開發時只重新編譯打包更新變化了的代碼，不變的代碼使用緩存，從而使更新速度更快
+   * 使用 OneOf 讓資源文件一旦被某個loader處理了，就不會繼續遍歷了，打包速度更快
+   * 使用 Include/Exclude 排除或只檢測某些文件，處理的文件更少，速度更快
+   * 使用 Cache 對eslint和babel處理的結果進行緩存，讓第二次打包速度更快
+   * 使用 Thread 多進程處理eslint和babel任務，速度更快(需要注意的是，進程啟動在比較多代碼處理時使用才有效果)
+3. 減少代碼體積
+   * 使用 Three Shaking剔除了沒有使用的多餘代碼，讓代碼體積更小
+   * 使用 @babel/plugin-transform-runtime plugin對babel進行處理，讓輔助代碼從中引入，而不是每個文件都生成輔助代碼，從而體積更小
+   * 使用 Image Minimizer 對項目中圖片進行壓縮，體積更小，請求速度更快(需要注意的是，如果項目中圖片都是在線鏈接，那麼就不需要了，本地項目靜態圖片才需要進行壓縮)
+4. 優化代碼運行性能
+   * 使用 Code Split 對代碼進行分割成多個js文件，從而使單個文件體積更小，並行加載js速度更快，並通過import動態導入語法進行按需加載，從而達到需要使用時才加載該資源，不用時不加載資源
+   * 使用 Proload/Profetch 對代碼進行提前加載，等未來需要使用時就能直接使用，從而用戶體驗更好
+   * 使用 Network Cache 能對輸出資源文件進行更好的命名，將來好做緩存，並只變更有影響到的chunk文件, 從而用戶體驗更好
+   * 使用 Core-js 對js進行兼容性(es6+)處理，讓我們代碼能運行在低版本瀏覽器
+   * 使用 PWA 能讓代碼離線也能訪問，從而提升用戶體驗
