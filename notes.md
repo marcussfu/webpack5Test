@@ -638,3 +638,38 @@ prefetch:
     }),
 
 兼容性較差(不是每個瀏覽器都可以用)，使用時多注意
+
+## network cache
+希望解決兩個問題
+1. 緩存變化時，加載新資源
+2. 當一個文件發生變化，希望就只有這個文件變更，其他不受影響
+
+在webpack.prod.js
+```
+ 1. // 先把打包輸出的文件名字都加上[contenthash:10]，用來表示目前檔案的hash，如果hash不同，就表示變動了
+ output: {
+    path: path.resolve(__dirname, "../dist"),
+    // entry js
+    filename: "static/js/[name].[contenthash:10].js", // 會直接取用默認的entry名字，就算之後改成多入口也沒問題
+    // 給打包輸出的其他文件命名
+    chunkFilename: "static/js/[name].chunk.[contenthash:10].js",
+    ...,
+ }
+
+ new MiniCssExtractPlugin({
+    filename: "static/css/[name].[contenthash:10].css",
+    chunkFilename: 'static/css/[name].chunk.[contenthash:10].css',
+ }),
+
+ 2. 加上runtimeChunk設定，藉由加入runtime~main.js這個檔，會去記錄對應檔案的hash，變化時只去更改對應的檔
+ optimization: {
+   ...,
+   runtimeChunk: {
+      name: (entrypoint) => `runtime~${entrypoint.name}`,
+   }
+ }
+```
+可以在main.js加上一些新函式，或把一些函式註解掉，就會看到只會影響到main.chunk和rutime~main的檔
+
+而main的檔就不會因為這樣變更，就跟著一起變更，讓緩存更加持久
+
