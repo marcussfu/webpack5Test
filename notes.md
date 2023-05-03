@@ -751,6 +751,10 @@ core-js是專門用來做ES6及以上API的polyfill(補丁)，讓我們在不兼
     }
    ```
 
+   warn: 在開發環境，會出現'Promise' is not defined，這表示eslint沒有允許es6的語法沒有import 就用
+
+   這時候要在 .eslintrc.js的env裡加上 es6: true，這時候再重新npm start 來refresh頁面，也不會出現錯誤了
+
 ## PWA
 * Why
 Web App, 一但離線，就沒辦法開啟了
