@@ -673,3 +673,80 @@ prefetch:
 
 而main的檔就不會因為這樣變更，就跟著一起變更，讓緩存更加持久
 
+## 兼容性問題-coreJS
+* Why
+我們使用了babel對js做兼容性處理，其中用@babel/preset-env預設處理兼容性問題
+
+他能對ES6一些語法進行編譯轉換，像是箭頭函式，...淺拷貝運算符號等，但如果是async函式，或promise，array的一些方法(includes)等，就沒辦法處理兼容
+
+這種情況下，要是低版本瀏覽器開啟頁面，就會報錯，所以想要把js兼容性問題解決
+* What
+core-js是專門用來做ES6及以上API的polyfill(補丁)，讓我們在不兼容某些新特性的瀏覽器上，使用該新特性
+* How
+1. 首先在main.js先加一個promise方法
+  ```
+  new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+  });
+  ```
+2. 下載core-js
+   npm i core-js
+3. 全加載core-js
+   在main.js import core-js後，重新npm run build
+   會生成另外的486.2b7c63f1af.js，裡面包含了core-js對應兼容
+   
+   但我們只用promise的兼容，卻要把core-js全都import了，這樣體積很大，也會造成延遲(486.2b7c63f1af.js的檔案大小245kb)
+4. 按需手動加載
+   如果只需要promise，那就按需加載就好了
+   到node_modules，去找core-js底下的es，會看到有promise
+   在main.js裡手動 import 'core-js/es/promise';
+
+   就是需要什麼就引入什麼，這時候再npm run build
+   會看到486.2b7c63f1af.js變成了633.121344289c.js(34kb)
+   整個檔案的大小就大幅降低了
+
+   但這樣用什麼es6的方法就得去找，然後自行加載，容易忘記也麻煩
+5. 自動加載對應的core-js方法
+   註解掉import 'core-js/es/promise';  // 會自動載入core-js
+
+   在babel.config.js 設定
+   ```
+    presets: [
+        [
+            "@babel/preset-env",
+            {
+                useBuiltIns: 'usage', // 按需加載自動引入
+                corejs: 3,
+            },
+        ],
+    ],
+   ```
+   重新 npm run build，就可以了
+
+   warn: 
+
+   前面講到 @babel/preset-env 雖然可以實現 polyfill，但卻有個缺點，他的 polyfill 會造成全局污染，是直接在源碼上方 require 一個方法，所以 babel 的機制會是直接在對像上添加方法，例如 includes 直接掛在 Array.prototype 上面，也就容易與一些第三方庫定義的全局方法衝突導致問題，在公認的編程中也是較不推薦修改全局變量的。
+
+   解決方法
+   * 安裝
+   $ npm install babel-loader @babel/core @babel/preset-env @babel/plugin-transform-runtime --save-dev
+   $ npm install @babel/runtime-corejs3
+   * 配置
+   .babelrc
+   ```
+   {
+      "presets": [
+          "@babel/preset-env"
+      ],
+      "plugins": [
+          [
+            "@babel/plugin-transform-runtime",
+            {
+              "corejs": 3
+            }
+          ]
+      ]
+    }
+   ```

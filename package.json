@@ -44,7 +44,8 @@
     "webpack-dev-server": "^4.13.3"
   },
   "dependencies": {
-    "@dimforge/rapier2d": "^0.11.2"
+    "@dimforge/rapier2d": "^0.11.2",
+    "core-js": "^3.30.1"
   },
   "browserslist": [
     "last 2 version",

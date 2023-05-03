@@ -1,3 +1,8 @@
+// 完整引入
+// import 'core-js';
+// 按需加載
+// import 'core-js/es/promise';
+
 import add from './js/add';
 // import {mul} from './js/math';
 
@@ -30,3 +35,12 @@ document.getElementById("btnForLazyloadMul").onclick = function() {
         console.log('mul', mul(3,3));
     });
 }
+
+new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, 1000);
+});
+
+const arr = [1, 2, 3, 4];
+console.log(arr.includes(1));
