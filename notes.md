@@ -601,3 +601,40 @@ new MiniCssExtractPlugin({
     chunkFilename: 'static/css/[name].chunk.css', // 如果也有動態import css檔的時候，就會需要也對chunk的csst檔命名
 }),
 ```
+
+## preload/prefetch
+* Why
+已經做了代碼chunk分割，也使用了動態import來進行代碼按需加載(懶加載，路由懶加載就是這樣)
+
+但加載速度不夠快，像是點擊按鈕才加載，如果資源很大，就會感覺卡頓
+
+想在瀏覽器空閒時間，加載後續需要使用的資源，就需要用preload或prefetch
+* What
+preload: 
+1. 立即加載資源
+2. 加載優先級高
+3. 只能加載當前頁面需要使用的資源
+prefetch: 
+1. 空閒時才開始加載資源
+2. 加載優先級低
+3. 可以加載當前頁面資源，也可以加載下個頁面需要的資源
+
+總結:
+1. 都會會加載資源，但不執行
+2. 都有緩存
+3. 當前頁面優先高的資源用preload加載
+4. 下個頁面需要使用的資源用prefetch加載
+5. 兼容性較差，但preload(90幾%)相對於prefetch(70幾%)兼容性好一點
+
+* How
+在webpack.prod.js
+1. npm install --save-dev @vue/preload-webpack-plugin
+2. const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
+3. 在plugins加上
+   new PreloadWebpackPlugin({
+        rel: 'preload',
+        as: 'script'
+        // rel: 'prefetch', // prefetch 不用加as: 'script'
+    }),
+
+兼容性較差(不是每個瀏覽器都可以用)，使用時多注意

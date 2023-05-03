@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const PreloadWebpackPlugin = require('@vue/preload-webpack-plugin');
 
 const threads = os.cpus().length; // cpu核數
 
@@ -131,6 +132,11 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "static/css/[name].css", // 將來也可能多入口，不見得都合成一個檔，所以filename也是設定成[name]可直接取對應設定的方式
             chunkFilename: 'static/css/[name].chunk.css', // 如果也有動態import css檔的時候，就會需要也對chunk的csst檔命名
+        }),
+        new PreloadWebpackPlugin({
+            rel: 'preload',
+            as: 'script',
+            // rel: 'prefetch',
         }),
     ],
     optimization: {
